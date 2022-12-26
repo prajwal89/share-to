@@ -11,25 +11,28 @@ composer require prajwal89/share-to
 ## Usage
 
 ```php
+
 include 'vendor/autoload.php';
+
 use Prajwal89\ShareTo;
 
-$share_to = new ShareTo('title', 'url');
-echo $share_to->all()->getButtons();
+$share = new ShareTo('McqMate - MCQ Portal for Students', 'https://mcqmate.com/');
+echo $share->all()->getButtons();
 
 ```
 
 ## To do list
 
-| Status | Todo |
-| ------ | ------ |
-| ✔ | inline styles| 
-||customize inline styles|
-||tailwind support|
-||bootstrap support|
-||add tests|
-||mail-to button|
-||instagram button|
+| Status | Todo                    |
+| ------ | ----------------------- |
+| ✔     | inline styles            |
+|        | customize inline styles |
+|        | tailwind support        |
+|        | bootstrap support       |
+|        | add tests               |
+|        | mail-to button          |
+|        | instagram button        |
+|        | linkedin button         |
 
 ## License
 
