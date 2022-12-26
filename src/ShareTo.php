@@ -141,13 +141,10 @@ class ShareTo
     private function getButtonInlineStyles($provider): string
     {
         $styles = [];
-
         $styles[] = 'color:' .  $this->providerSettings[$provider]['primaryColor'];
         $styles[] = 'padding:' . $this->options['paddingX'] . 'px ' . $this->options['paddingY'] . 'px';
         $styles[] = 'border:' . $this->options['borderWidth'] . 'px solid ' . $this->providerSettings[$provider]['primaryColor'];
         $styles[] = 'border-radius:' . $this->options['radius'] . 'px';
-        // print("<pre>" . print_r($styles, true) . "</pre>");
-
         return implode(';', $styles);
     }
 
@@ -158,13 +155,18 @@ class ShareTo
         $styles[] = 'flex-wrap:wrap';
         $styles[] = 'gap:' .  $this->options['buttonGap'] . 'px';
         $styles[] = 'justify-content:' .  $this->options['alignment'];
-
-        // display:flex; justify-content:center; gap:10px; flex-wrap:wrap; color:black;
         return implode(';', $styles);
     }
 
     private function getContainerPrefix(): string
     {
         return '<div id="laravel-share-this" style="' . $this->getContainerInlineStyles() . '">';
+    }
+
+    
+    public function getRawLinks(): array
+    {
+        $this->all();
+        return $this->shareUrls;
     }
 }
