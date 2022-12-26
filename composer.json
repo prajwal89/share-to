@@ -3,6 +3,12 @@
     "description": "Generate and render social share buttons without any hassle",
     "type": "library",
     "license": "MIT",
+    "keywords": [
+        "social",
+        "share",
+        "links",
+        "buttons"
+    ],
     "autoload": {
         "psr-4": {
             "Prajwal89\\": "src"
@@ -10,7 +16,8 @@
     },
     "authors": [
         {
-            "name": "prajwal89"
+            "name": "Prajwal Hallale",
+            "email": "prajwalhallale89@gmail.com"
         }
     ],
     "minimum-stability": "stable",
