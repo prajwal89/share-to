@@ -43,16 +43,19 @@ class ShareTo
     protected $html = '';
 
 
-    /**
-     * The generated html
-     *
-     * @var string
-     */
     protected $buttonStyles = [
-        'facebook' => 'border:2px solid #4267B2; border-radius:4px; padding: 4px 8px; color:#4267B2',
-        'whatsapp' => 'border:2px solid #075E54; border-radius:4px; padding: 4px 8px; color:#075E54',
-        'twitter' => 'border:2px solid #1DA1F2; border-radius:4px; padding: 4px 8px; color:#1DA1F2',
-        'telegram' => 'border:2px solid #0088cc; border-radius:4px; padding: 4px 8px; color:#0088cc',
+        'facebook' => [
+            'primaryColor' => '#4267B2',
+        ],
+        'whatsapp' => [
+            'primaryColor' => '#075E54',
+        ],
+        'twitter' => [
+            'primaryColor' => '#1DA1F2',
+        ],
+        'telegram' => [
+            'primaryColor' => '#0088cc',
+        ]
     ];
 
 
@@ -61,7 +64,12 @@ class ShareTo
      *
      * @var array
      */
-    protected $options = [];
+    protected $defaultOptions = [
+        'borderWidth' => 2,
+        'radius' => 4,
+        'paddingX' => 4,
+        'paddingY' => 8,
+    ];
 
 
     /**
@@ -71,8 +79,11 @@ class ShareTo
      * @return $this
      */
 
-    function __construct(public string $title, public string $url = '', $options = [])
+    function __construct(public string $title, public string $url = '', protected $options = [])
     {
+        $this->options = array_replace($this->defaultOptions, $this->options);
+
+        // var_dump($this->options);
         // $this->url = empty($this->url) ? URL::full() : $this->url;
         // dd(preg_grep('/^f/', get_class_methods($this)));
         // array_map(function ($service) {
@@ -127,12 +138,25 @@ class ShareTo
     {
         $this->html .= $this->prefix;
 
-        foreach ($this->shareUrls as $service => $url) {
-            $this->html .= "<a href='$url' target='_blank' style='" . $this->buttonStyles[$service] . "'>" . ucfirst($service) . "</a>";
+        foreach ($this->shareUrls as $provider => $url) {
+            $this->html .= "<a href='$url' target='_blank' style='" . $this->getButtonInlineStyle($provider) . "'>" . ucfirst($provider) . "</a>";
         }
 
         $this->html .= $this->suffix;
 
         return $this->html;
+    }
+
+    public function getButtonInlineStyle($provider)
+    {
+        $styles = [];
+
+        $styles[] = 'color:' .  $this->buttonStyles[$provider]['primaryColor'];
+        $styles[] = 'padding:' . $this->options['paddingX'] . 'px ' . $this->options['paddingY'] . 'px';
+        $styles[] = 'border:' . $this->options['borderWidth'] . 'px solid ' . $this->buttonStyles[$provider]['primaryColor'];
+        $styles[] = 'border-radius:' . $this->options['radius'] . 'px';
+        // print("<pre>" . print_r($styles, true) . "</pre>");
+
+        return implode(';', $styles);
     }
 }
