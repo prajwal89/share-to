@@ -3,14 +3,6 @@
 Generate and render social share buttons without any hassle
 
 
-| Status | Todo |
-| ------ | ------ |
-| ✔ | inline styles| 
-||customize inline styles|
-||tailwind support|
-||bootstrap support|
-||add tests|
-
 ## Installation
 ```php
 composer require prajwal89/share-to
@@ -26,6 +18,18 @@ $share_to = new ShareTo('title', 'url');
 echo $share_to->all()->getButtons();
 
 ```
+
+## To do list
+
+| Status | Todo |
+| ------ | ------ |
+| ✔ | inline styles| 
+||customize inline styles|
+||tailwind support|
+||bootstrap support|
+||add tests|
+||mail-to button|
+||instagram button|
 
 ## License
 
