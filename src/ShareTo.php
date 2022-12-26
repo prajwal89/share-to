@@ -2,14 +2,8 @@
 
 namespace Prajwal89;
 
-
 class ShareTo
 {
-
-    const FACEBOOK_URI = 'https://www.facebook.com/sharer/sharer.php';
-    const WHATSAPP_URI = 'https://wa.me';
-    const TWITTER_URI = 'https://twitter.com/intent/tweet';
-    const TELEGRAM_URI = 'https://telegram.me/share/url';
 
     /**
      * Html to prefix before the share links
@@ -45,15 +39,19 @@ class ShareTo
 
     protected $providerSettings = [
         'facebook' => [
+            'uri' => 'https://www.facebook.com/sharer/sharer.php',
             'primaryColor' => '#4267B2',
         ],
         'whatsapp' => [
+            'uri' => 'https://wa.me',
             'primaryColor' => '#075E54',
         ],
         'twitter' => [
+            'uri' => 'https://twitter.com/intent/tweet',
             'primaryColor' => '#1DA1F2',
         ],
         'telegram' => [
+            'uri' => 'https://telegram.me/share/url',
             'primaryColor' => '#0088cc',
         ]
     ];
@@ -105,25 +103,25 @@ class ShareTo
 
     public function facebook(): self
     {
-        $this->shareUrls[__FUNCTION__] = self::FACEBOOK_URI . "?" . http_build_query(['u' => $this->url, 'quote' => urlencode($this->title)]);
+        $this->shareUrls[__FUNCTION__] = $this->providerSettings[__FUNCTION__]['uri'] . "?" . http_build_query(['u' => $this->url, 'quote' => urlencode($this->title)]);
         return $this;
     }
 
     public function whatsapp(): self
     {
-        $this->shareUrls[__FUNCTION__] = self::WHATSAPP_URI . "/?" . http_build_query(['text' =>  $this->title . "\n\n" . $this->url]);
+        $this->shareUrls[__FUNCTION__] = $this->providerSettings[__FUNCTION__]['uri'] . "/?" . http_build_query(['text' =>  $this->title . "\n\n" . $this->url]);
         return $this;
     }
 
     public function twitter(): self
     {
-        $this->shareUrls[__FUNCTION__] = self::TWITTER_URI . "?" . http_build_query(['text' =>  $this->title . "\n", 'url' => $this->url]);
+        $this->shareUrls[__FUNCTION__] = $this->providerSettings[__FUNCTION__]['uri'] . "?" . http_build_query(['text' =>  $this->title . "\n", 'url' => $this->url]);
         return $this;
     }
 
     public function telegram(): self
     {
-        $this->shareUrls[__FUNCTION__] = self::TELEGRAM_URI . "?" . http_build_query(['text' =>  $this->title . "\n", 'url' => $this->url]);
+        $this->shareUrls[__FUNCTION__] = $this->providerSettings[__FUNCTION__]['uri'] . "?" . http_build_query(['text' =>  $this->title . "\n", 'url' => $this->url]);
         return $this;
     }
 
