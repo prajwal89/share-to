@@ -12,11 +12,21 @@ Generate and render social share buttons without any hassle
 ||add tests|
 
 ## Installation
-coming soon
+```php
+composer require prajwal89/share-to
+```
 
 ## Usage
-coming soon
+
+```php
+include 'vendor/autoload.php';
+use Prajwal89\ShareTo;
+
+$share_to = new ShareTo('title', 'url');
+echo $share_to->all()->getButtons();
+
+```
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ShareTo package is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

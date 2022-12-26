@@ -16,7 +16,7 @@ class ShareTo
      *
      * @var string
      */
-    protected $prefix = '<div id="laravel-share-this" style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap; color:black;">';
+    protected $prefix = '<div id="laravel-share-this">';
 
 
     /**
@@ -43,7 +43,7 @@ class ShareTo
     protected $html = '';
 
 
-    protected $buttonStyles = [
+    protected $providerSettings = [
         'facebook' => [
             'primaryColor' => '#4267B2',
         ],
@@ -65,9 +65,13 @@ class ShareTo
      * @var array
      */
     protected $defaultOptions = [
+        'buttonGap' => 10,
+        'alignment' => 'center',
+
         'borderWidth' => 2,
         'radius' => 4,
         'paddingX' => 4,
+        'paddingY' => 8,
         'paddingY' => 8,
     ];
 
@@ -82,14 +86,6 @@ class ShareTo
     function __construct(public string $title, public string $url = '', protected $options = [])
     {
         $this->options = array_replace($this->defaultOptions, $this->options);
-
-        // var_dump($this->options);
-        // $this->url = empty($this->url) ? URL::full() : $this->url;
-        // dd(preg_grep('/^f/', get_class_methods($this)));
-        // array_map(function ($service) {
-        //     // $this->$service();
-        //     $this->{$service}();
-        // }, preg_grep('/^service/', get_class_methods($this)));
     }
 
     /**
@@ -115,31 +111,28 @@ class ShareTo
 
     public function whatsapp(): self
     {
-        //add custom message
         $this->shareUrls[__FUNCTION__] = self::WHATSAPP_URI . "/?" . http_build_query(['text' =>  $this->title . "\n\n" . $this->url]);
         return $this;
     }
 
     public function twitter(): self
     {
-        //add custom message
         $this->shareUrls[__FUNCTION__] = self::TWITTER_URI . "?" . http_build_query(['text' =>  $this->title . "\n", 'url' => $this->url]);
         return $this;
     }
 
     public function telegram(): self
     {
-        //add custom message
         $this->shareUrls[__FUNCTION__] = self::TELEGRAM_URI . "?" . http_build_query(['text' =>  $this->title . "\n", 'url' => $this->url]);
         return $this;
     }
 
     public function getButtons($options = []): string
     {
-        $this->html .= $this->prefix;
+        $this->html .= $this->getContainerPrefix();
 
         foreach ($this->shareUrls as $provider => $url) {
-            $this->html .= "<a href='$url' target='_blank' style='" . $this->getButtonInlineStyle($provider) . "'>" . ucfirst($provider) . "</a>";
+            $this->html .= "<a href='$url' target='_blank' style='" . $this->getButtonInlineStyles($provider) . "'>" . ucfirst($provider) . "</a>";
         }
 
         $this->html .= $this->suffix;
@@ -147,16 +140,33 @@ class ShareTo
         return $this->html;
     }
 
-    public function getButtonInlineStyle($provider)
+    private function getButtonInlineStyles($provider): string
     {
         $styles = [];
 
-        $styles[] = 'color:' .  $this->buttonStyles[$provider]['primaryColor'];
+        $styles[] = 'color:' .  $this->providerSettings[$provider]['primaryColor'];
         $styles[] = 'padding:' . $this->options['paddingX'] . 'px ' . $this->options['paddingY'] . 'px';
-        $styles[] = 'border:' . $this->options['borderWidth'] . 'px solid ' . $this->buttonStyles[$provider]['primaryColor'];
+        $styles[] = 'border:' . $this->options['borderWidth'] . 'px solid ' . $this->providerSettings[$provider]['primaryColor'];
         $styles[] = 'border-radius:' . $this->options['radius'] . 'px';
         // print("<pre>" . print_r($styles, true) . "</pre>");
 
         return implode(';', $styles);
+    }
+
+    private function getContainerInlineStyles(): string
+    {
+        $styles = [];
+        $styles[] = 'display:flex';
+        $styles[] = 'flex-wrap:wrap';
+        $styles[] = 'gap:' .  $this->options['buttonGap'] . 'px';
+        $styles[] = 'justify-content:' .  $this->options['alignment'];
+
+        // display:flex; justify-content:center; gap:10px; flex-wrap:wrap; color:black;
+        return implode(';', $styles);
+    }
+
+    private function getContainerPrefix(): string
+    {
+        return '<div id="laravel-share-this" style="' . $this->getContainerInlineStyles() . '">';
     }
 }
