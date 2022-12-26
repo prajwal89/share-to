@@ -163,10 +163,20 @@ class ShareTo
         return '<div id="laravel-share-this" style="' . $this->getContainerInlineStyles() . '">';
     }
 
-    
+
     public function getRawLinks(): array
     {
         $this->all();
         return $this->shareUrls;
+    }
+
+    public function only(array $providers)
+    {
+        foreach ($providers as $provider) {
+            if (in_array($provider, array_keys($this->providerSettings))) {
+                $this->{$provider}();
+            }
+        }
+        return $this;
     }
 }
