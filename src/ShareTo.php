@@ -63,13 +63,14 @@ class ShareTo
      * @var array
      */
     protected $defaultOptions = [
-        'buttonGap' => 10,
-        'alignment' => 'center',
-
-        'borderWidth' => 2,
+        //options for container
+        'buttonGap' => 10, //in px
+        'alignment' => 'center', // accepts (start|center|end) alignment of of buttons in container
+       
+        //options for button
+        'borderWidth' => 2, 
         'radius' => 4,
         'paddingX' => 4,
-        'paddingY' => 8,
         'paddingY' => 8,
     ];
 
@@ -141,6 +142,7 @@ class ShareTo
     private function getButtonInlineStyles($provider): string
     {
         $styles = [];
+        $styles[] = 'text-decoration:none';
         $styles[] = 'color:' .  $this->providerSettings[$provider]['primaryColor'];
         $styles[] = 'padding:' . $this->options['paddingX'] . 'px ' . $this->options['paddingY'] . 'px';
         $styles[] = 'border:' . $this->options['borderWidth'] . 'px solid ' . $this->providerSettings[$provider]['primaryColor'];
